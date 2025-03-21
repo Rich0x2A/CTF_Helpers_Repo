@@ -1,2 +1,2 @@
 # CTF_Helpers_Repo
-Helper programs for CTFs
+Collection of helper programs for CTFs
