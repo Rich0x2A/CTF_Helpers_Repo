@@ -70,10 +70,13 @@ int* get_key()
     return key;
 }
 
-void xor(char* s, int* key)
+void xor(char* s, unsigned char* key, int key_len)
 {
     int* len = get_strlen(s);
-    for (int i = 0; i < *len; ++i) s[i] ^= *key;
+    for (int i = 0; i < *len; ++i)
+    {
+        s[i] ^= key[i % key_len];
+    }
     free(len);
 }
 
@@ -126,13 +129,12 @@ void menu(char* s)
 
         else if (opt == '4')
         {
-            int* key = get_key();
-            if (key != NULL)
-            {
-                xor(s, key);
-                printf("STRING XORed WITH KEY %#x: %s\n", *key, s);
-                free(key);    
-            }         
+            char key[100];
+            printf("ENTER XOR KEY: ");
+            scanf(" %99[^\n]", key);
+            int key_len = get_strlen(key)[0];
+            xor(s, (unsigned char*)key, key_len);
+            printf("STRING XORed WITH KEY \"%s\": %s\n", key, s);
         }
 
         else if (opt == 'q')
